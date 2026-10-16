@@ -98,6 +98,69 @@ services:
     networks:
       - studies
 
+  # ─── MongoDB ─────────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:7.0
+    container_name: studies-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: studies
+      MONGO_INITDB_ROOT_PASSWORD: studies
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - studies
+
+  # ─── Mongo Express (MongoDB UI) ──────────────────────────────────────────────
+  mongo-express:
+    image: mongo-express:1.0.2-20
+    container_name: studies-mongo-express
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: studies
+      ME_CONFIG_MONGODB_ADMINPASSWORD: studies
+      ME_CONFIG_MONGODB_URL: mongodb://studies:studies@mongodb:27017/
+      ME_CONFIG_BASICAUTH: "false"
+    networks:
+      - studies
+
+  # ─── Elasticsearch ───────────────────────────────────────────────────────────
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    container_name: studies-elasticsearch
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - studies
+
+  # ─── Kibana ──────────────────────────────────────────────────────────────────
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.3
+    container_name: studies-kibana
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    networks:
+      - studies
+
   # ─── Floci (AWS emulator) ────────────────────────────────────────────────────
   floci:
     image: floci/floci:latest
@@ -132,6 +195,8 @@ volumes:
   zookeeper_log:
   kafka_data:
   rabbitmq_data:
+  mongodb_data:
+  elasticsearch_data:
   floci_data:
 
 networks:

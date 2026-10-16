@@ -12,6 +12,10 @@ Local development dependencies for software engineering studies.
 | Kafka UI | `8080` | http://localhost:8080 |
 | RabbitMQ AMQP | `5672` | `studies` / `studies` |
 | RabbitMQ Management | `15672` | http://localhost:15672 |
+| MongoDB | `27017` | `studies` / `studies` |
+| Mongo Express (MongoDB UI) | `8081` | http://localhost:8081 |
+| Elasticsearch | `9200` | — (security disabled) |
+| Kibana | `5601` | http://localhost:5601 |
 | Floci (AWS emulator) | `4566` | key: `test` / secret: `test` |
 
 ### Observability (`docker-compose.observability.yml`)
@@ -140,3 +144,7 @@ cp .env.example .env
 | Grafana Loki | https://grafana.com/docs/loki/latest/ |
 | Grafana Tempo | https://grafana.com/docs/tempo/latest/ |
 | Alertmanager | https://prometheus.io/docs/alerting/latest/alertmanager/ |
+| MongoDB | https://www.mongodb.com/docs/manual/ |
+| Mongo Express | https://github.com/mongo-express/mongo-express |
+| Elasticsearch | https://www.elastic.co/docs/solutions/search |
+| Kibana | https://www.elastic.co/docs/solutions/search/search-ui |
