@@ -1,4 +1,4 @@
-.PHONY: up down restart ps logs clean
+.PHONY: up down restart ps logs clean obs-up obs-down obs-logs obs-clean
 
 up:
 	docker compose up -d
@@ -20,6 +20,22 @@ logs-%:
 
 clean:
 	docker compose down -v --remove-orphans
+
+# ─── Observability ───────────────────────────────────────────────────────────
+obs-up:
+	docker compose -f docker-compose.observability.yml up -d
+
+obs-down:
+	docker compose -f docker-compose.observability.yml down
+
+obs-logs:
+	docker compose -f docker-compose.observability.yml logs -f
+
+obs-logs-%:
+	docker compose -f docker-compose.observability.yml logs -f $*
+
+obs-clean:
+	docker compose -f docker-compose.observability.yml down -v --remove-orphans
 
 # ─── AWS (Floci) shortcuts ────────────────────────────────────────────────────
 aws-ls-s3:
