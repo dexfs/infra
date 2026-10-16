@@ -4,6 +4,8 @@ Local development dependencies for software engineering studies.
 
 ## Services
 
+For a description of what each service does and when to use it, see [docs/services.md](docs/services.md).
+
 | Service | Port(s) | Credentials |
 |---|---|---|
 | PostgreSQL | `5432` | `studies` / `studies` |
